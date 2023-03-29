@@ -63,7 +63,7 @@ The original [1981 IBM PC](https://en.wikipedia.org/wiki/IBM_Personal_Computer) 
 
 The original 1981 PC had no provision to detect additional software in ROM, not even for the _User ROM_. It wasn't unti the 1983 [PC-XT](https://en.wikipedia.org/wiki/IBM_Personal_Computer_XT) that introduced a scan for Option ROMs as it needed a way to activate its (still optional) Fixed Disk controller. The same functionality was later added to the still produced IBM-PC with its 10/27/82 Revision.
 
-To activte such additional ROM code the BIOS scanned, after basic system initialisation, the address range between the end of the default graphics RAM at `C8000h` and right until the free option ROM socket at`F4000h` (*3) for
+To activte such additional ROM code the BIOS scannes, after basic system initialisation (*3), the address range between the end of the default graphics RAM at `C8000h` and right until the free option ROM socket at`F4000h` (*4,5)  for
 - a two byte signature  f _AAh 55h_ at a 2 KiB border
 - took the following byte as a length in 512 byte pages
 - added up all bytes in those pages modulo 256
@@ -91,4 +91,8 @@ To activte such additional ROM code the BIOS scanned, after basic system initial
 
 \*2 - FFh is used as it's the default (empy) value for classic (E)PROM. That way one can use tha fill area to add some code patch if needed. May be less relevant in times of all software emulation :)
 
-\*3 - Which means the Option ROM socket can only hold a single ROM image.
+\*3 - Thereis also a dedicated scann for graphic card ROM(s) between `C0000h` and `C7800h` before all initialisation is done to enable output on other cards than [MDA](https://en.wikipedia.org/wiki/IBM_Monochrome_Display_Adapter) or [CGA](https://en.wikipedia.org/wiki/Color_Graphics_Adapter) which are both handled by the on board BIOS.
+
+\*4 - Which means the Option ROM socket can only hold a single ROM image.
+
+\*5 - Some third party BIOS, for example [GlaBIOS](https://github.com/640-KB/GLaBIOS), can be configured to scan all the way up to `FD800h`, including all of the Option ROM as well as the BASIC ROM. This openes the use of the often empty BASIC sockets in clones to be used for Option ROM.
